@@ -1,4 +1,8 @@
 import { useRouter } from 'next/router';
+import { Button } from './Button';
+import NotebookItem from './NotebookItem';
+import Spacer from './Spacer';
+import Typography from './Typography';
 
 export default function NotebookList({ notebooks }) {
   const router = useRouter();
@@ -9,17 +13,29 @@ export default function NotebookList({ notebooks }) {
 
   return (
     <>
-      <h1>Cadernos</h1>
+      <Typography tag="h1" label="Notas" />
+      <Spacer vertical={16} />
       <ul>
-        {notebooks.map(({ id, name }) => {
-          console.log(name, id);
+        {notebooks.map(({ _id, title }) => {
           return (
-            <a key={id} onClick={() => handleOpenNotebook(id)}>
-              <p>{name}</p>
-            </a>
+            <NotebookItem
+              key={_id}
+              name={title}
+              // handleClick={() => handleOpenNotebook(_id)}
+            />
           );
         })}
       </ul>
+
+      <style jsx>
+        {`
+          ul {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+        `}
+      </style>
     </>
   );
 }

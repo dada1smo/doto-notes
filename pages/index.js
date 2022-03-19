@@ -1,30 +1,34 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import ContentLoader from 'react-content-loader';
 import Container from '../components/Container';
 import NotebookList from '../components/NotebookList';
-import { getNotebooks, subscribeNotebooks } from '../supabase';
+import Api from './api/api.utils';
+import Spacer from '../components/Spacer';
+import { Button } from '../components/Button';
 
 export default function Home() {
   const [notebooks, setNotebooks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const listNotebooks = async () => {
-    const data = await getNotebooks();
+    const data = await Api.getAll();
     setNotebooks(data);
+    setLoading(false);
   };
 
   useEffect(() => {
     listNotebooks();
 
-    const subscription = subscribeNotebooks((newNotebook) => {
-      setNotebooks((currentNotebookList) => {
-        return [newNotebook, ...currentNotebookList];
-      });
-    });
+    // const subscription = subscribeNotebooks((newNotebook) => {
+    //   setNotebooks((currentNotebookList) => {
+    //     return [newNotebook, ...currentNotebookList];
+    //   });
+    // });
 
-    return () => {
-      subscription.unsubscribe();
-    };
+    // return () => {
+    //   subscription.unsubscribe();
+    // };
   }, []);
 
   return (
@@ -38,10 +42,34 @@ export default function Home() {
       <main>
         <Container>
           <NotebookList notebooks={notebooks} />
+          {loading && <Skeleton />}
+          {!loading && (
+            <>
+              <Spacer vertical={16} />
+              <Button
+                label="Adicionar caderno"
+                color="primary"
+                shape="regularMD"
+              />
+            </>
+          )}
         </Container>
       </main>
-
-      <footer>Footer</footer>
     </div>
   );
 }
+
+const Skeleton = () => {
+  return (
+    <ContentLoader
+      style={{
+        width: '100%',
+        height: '44px',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <rect x="0" y="0" rx="4" ry="4" width="100%" height="44" />
+    </ContentLoader>
+  );
+};

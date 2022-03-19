@@ -10,7 +10,7 @@ export default function GlobalStyle() {
         list-style: none;
       }
       body {
-        font-family: 'Open Sans', sans-serif;
+        font-family: ${Theme.ibmPlexSans};
         background-color: ${Theme.neutral[200]};
       }
       html,
@@ -31,6 +31,7 @@ export default function GlobalStyle() {
       a {
         color: inherit;
         text-decoration: none;
+        cursor: pointer;
       }
     `}</style>
   );

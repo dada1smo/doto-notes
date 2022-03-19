@@ -7,7 +7,11 @@ export default function Container({ children }) {
         {`
           div {
             background-color: ${Theme.neutral['000']};
-            width: 60vw;
+            width: 40vw;
+            border-radius: 8px;
+            padding: 24px 28px;
+            box-shadow: 0 4px 20px ${Theme.neutral[400]};
+            min-height: 120px;
           }
         `}
       </style>
